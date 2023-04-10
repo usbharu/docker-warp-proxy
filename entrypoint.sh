@@ -8,7 +8,6 @@ done
 warp-cli --accept-tos set-mode proxy
 warp-cli --accept-tos set-proxy-port 40000
 warp-cli --accept-tos connect
-haproxy -f /etc/haproxy/haproxy.cfg
 ) &
 
 exec warp-svc
