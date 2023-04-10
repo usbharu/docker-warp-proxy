@@ -1,18 +1,19 @@
-ARG DEBIAN_RELEASE=buster
+ARG DEBIAN_RELEASE=bullseye
 FROM docker.io/debian:$DEBIAN_RELEASE-slim
 ARG DEBIAN_RELEASE
-COPY pubkey.gpg entrypoint.sh /
+COPY entrypoint.sh /
 ENV DEBIAN_FRONTEND noninteractive
 RUN true && \
 	apt update && \
-	apt install -y gnupg ca-certificates libcap2-bin haproxy && \
-	apt-key add /pubkey.gpg && \
-	echo "deb http://pkg.cloudflareclient.com/ $DEBIAN_RELEASE main" > /etc/apt/sources.list.d/cloudflare-client.list && \
+	apt install -y gnupg ca-certificates curl && \
+	curl https://pkg.cloudflareclient.com/pubkey.gpg | gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg && \
+	echo "deb [arch=amd64 signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/  $DEBIAN_RELEASE main" | tee /etc/apt/sources.list.d/cloudflare-client.list && \
 	apt update && \
-	apt install cloudflare-warp -y && \
+	apt install cloudflare-warp -y --no-install-recommends && \
+	apt remove -y curl ca-certificates && \
 	apt clean -y && \
+	rm -rf /var/lib/apt/lists/* && \
 	chmod +x /entrypoint.sh
-COPY haproxy.cfg /etc/haproxy/haproxy.cfg
 
 EXPOSE 40000/tcp
 ENTRYPOINT [ "/entrypoint.sh" ]
