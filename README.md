@@ -10,7 +10,7 @@ docker run -d -p 40000:40000 --restart unless-stopped seiry/cloudflare-warp-prox
 
 SOCKS5 proxy server will be listening at port 40000.
 
-## docker-compose
+### docker-compose
 
 ```yml
 version: "3.0"
@@ -27,4 +27,28 @@ services:
       options:
         max-size: 1m
 
+```
+
+## test
+
+```bash
+curl https://www.cloudflare.com/cdn-cgi/trace/ -x socks5h://127.1:40000  # remote dns mode
+
+# or
+
+curl https://www.cloudflare.com/cdn-cgi/trace/ -x socks5://127.1:40000  # local dns mode
+
+# or
+
+curl https://www.cloudflare.com/cdn-cgi/trace/ -x http://127.1:40000  # http mode
+
+```
+
+```bash
+...
+sni=plaintext
+warp=on
+# 👆wrap on！
+gateway=off
+...
 ```
