@@ -9,3 +9,22 @@ docker run -d -p 40000:40000 --restart unless-stopped seiry/cloudflare-warp-prox
 ```
 
 SOCKS5 proxy server will be listening at port 40000.
+
+## docker-compose
+
+```yml
+version: "3.0"
+
+services:
+  cloudflare-warp-proxy:
+    image: seiry/cloudflare-warp-proxy
+    network_mode: bridge
+    ports:
+      - 40000:40000
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 1m
+
+```

@@ -15,5 +15,4 @@ RUN true && \
 	rm -rf /var/lib/apt/lists/* && \
 	chmod +x /entrypoint.sh
 
-EXPOSE 40000/tcp
 ENTRYPOINT [ "/entrypoint.sh" ]
