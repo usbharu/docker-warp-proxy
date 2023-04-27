@@ -1,8 +1,10 @@
 ARG DEBIAN_RELEASE=bullseye
+ARG LICENSE=''
 FROM docker.io/debian:$DEBIAN_RELEASE-slim
 ARG DEBIAN_RELEASE
 COPY entrypoint.sh /
 ENV DEBIAN_FRONTEND noninteractive
+ENV LICENSE=${LICENSE}
 RUN true && \
 	apt update && \
 	apt install -y gnupg ca-certificates curl socat && \
