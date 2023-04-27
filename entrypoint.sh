@@ -8,7 +8,7 @@ done
 warp-cli --accept-tos set-mode proxy
 warp-cli --accept-tos set-proxy-port 40001
 
-if [ "$LICENSE" == "" ]; then
+if [ "$LICENSE" != "" ]; then
 	warp-cli --accept-tos set-license $LICENSE
 fi
 

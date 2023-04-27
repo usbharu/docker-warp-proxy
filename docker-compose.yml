@@ -8,7 +8,7 @@ services:
       - 40000:40000
     restart: unless-stopped
     environment:
-      - LICENSE=
+      - LICENSE=you-own-key
     logging:
       driver: json-file
       options:
