@@ -1,12 +1,12 @@
-#!/bin/bash
-
+#!/bin/sh
+warp-cli proxy port --help
 (
-while ! warp-cli --accept-tos register; do
+while ! warp-cli --accept-tos registration new; do
 	sleep 1
 	>&2 echo "Awaiting warp-svc become online..."
 done
-warp-cli --accept-tos set-mode proxy
-warp-cli --accept-tos set-proxy-port 40001
+warp-cli --accept-tos mode proxy
+warp-cli --accept-tos proxy port 40001
 
 if [ "$LICENSE" != "" ]; then
 	warp-cli --accept-tos set-license $LICENSE
